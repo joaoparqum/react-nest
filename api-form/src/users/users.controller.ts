@@ -9,16 +9,16 @@ interface User {
 
 const users: User[] = [];
 
-@Controller('users')
+@Controller('usuarios')
 export class UsersController {
 
     @Get()
-    getUsers() {
+    getUsuarios() {
         return users;
     }
 
     @Post()
-    addUser(@Body() user: User) {
+    addUsuario(@Body() user: User) {
         users.push(user);
         return { 
             message: 'Usuário cadastrado!', user
@@ -26,7 +26,7 @@ export class UsersController {
     }
 
     @Delete(':id')
-    deleteUser(@Param('id') id: string) {
+    deleteUsuario(@Param('id') id: string) {
         const index = users.findIndex((user) => user.id === id );
         if (index !== -1) {
             users.splice(index, 1);

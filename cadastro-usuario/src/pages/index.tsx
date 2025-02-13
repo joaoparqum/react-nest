@@ -1,32 +1,35 @@
 import './style.css'
 import Trash from '../assets/garbage-trash-svgrepo-com.svg';
 import { useUserStore } from '../store/useUserStore';
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useState } from 'react';
 
 function Home() {
 
-  const { users, addUser, removeUser } = useUserStore();
+  //chamando os métodos e objeto declarados no zustand 
+  const { usuarios, fetchUsuarios, addUsuarios, removeUsuarios } = useUserStore();
   const [ form, setForm ] = useState({ nome: '', idade: '', email: ' '})
+
+  useEffect(() =>{
+    fetchUsuarios(); //carrega os usuarios vindos do back-end
+  }, [fetchUsuarios])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({...form, [e.target.name]: e.target.value });
   };
   
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if(!form.nome || !form.idade || !form.email) {
       window.alert('preencha todos os campos!');
       return;
     }
 
-    addUser ({
-      id: uuidv4(),
+    await addUsuarios ({
       nome: form.nome,
       idade: Number(form.idade),
       email: form.email
     });
 
-    setForm({ nome: '', idade: '', email: '' });
+    setForm({ nome: '', idade: '', email: '' }); //limpa formulário 
   }
 
 
@@ -41,7 +44,8 @@ function Home() {
 
           <button type='button' onClick={handleSubmit}>Cadastrar</button>
         </form>
-        {users.map((user) =>
+
+        {usuarios.map((user) =>
           <div className='card' key={user.id}>
             <div>
               <p>Nome: <span>{user.nome}</span> </p>
@@ -49,11 +53,12 @@ function Home() {
               <p>E-mail: <span>{user.email}</span> </p>
             </div>
 
-            <button onClick={() => removeUser(user.id)}>
+            <button onClick={() => removeUsuarios(user.id)}>
               <img src={Trash} alt='Excluir'/>
             </button>
            </div>
         )} 
+        
       </div>
     </>
   )
