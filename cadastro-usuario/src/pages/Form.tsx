@@ -3,7 +3,7 @@ import Trash from '../assets/garbage-trash-svgrepo-com.svg';
 import { useUserStore } from '../store/useUserStore';
 import { useEffect, useState } from 'react';
 
-function Home() {
+export const Form = () => {
 
   //chamando os métodos e objeto declarados no zustand 
   const { usuarios, fetchUsuarios, addUsuarios, removeUsuarios } = useUserStore();
@@ -17,6 +17,7 @@ function Home() {
     setForm({...form, [e.target.name]: e.target.value });
   };
   
+  //método de POST
   const handleSubmit = async () => {
     if(!form.nome || !form.idade || !form.email) {
       window.alert('preencha todos os campos!');
@@ -63,5 +64,3 @@ function Home() {
     </>
   )
 }
-
-export default Home

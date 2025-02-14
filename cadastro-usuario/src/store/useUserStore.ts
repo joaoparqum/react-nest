@@ -2,14 +2,14 @@ import { create } from 'zustand';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
-interface User {
+type User = {
   id: string;
   nome: string;
   idade: number;
   email: string;
 }
 
-interface UserStore {
+type UserStore = {
   usuarios: User[];
   fetchUsuarios: () => Promise<void>;
   addUsuarios: (user: Omit<User, 'id'>) => Promise<void>;
